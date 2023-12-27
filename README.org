@@ -1,0 +1,5 @@
+#+TITLE: Literate Spacemacs Layering
+
+[[LICENSE][https://img.shields.io/badge/license-GPL_3-green.svg]]
+
+Create new Spacemacs Layers with literate programming and Org tangling.
