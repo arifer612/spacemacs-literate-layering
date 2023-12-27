@@ -1,0 +1,139 @@
+#+TITLE: Spacemacs-layers Tower of Babel
+#+DESCRIPTION: Org-babel library for Spacemacs layers
+
+** spc-layers-lob-license
+The GPL-3.0-or-later License header.
+
+#+NAME: spc-layers-lob-license
+#+BEGIN_SRC emacs-lisp :noweb yes
+  ;; Copyright (c) 2012-%YEAR% %USER_FULL_NAME%
+  ;;
+  ;; Author: %USER_FULL_NAME% <%USER_MAIL_ADDRESS%>
+  ;; URL: %LAYER_URL%
+  ;;
+  ;; This file is not part of GNU Emacs.
+  ;;
+  ;; This program is free software; you can redistribute it and/or modify
+  ;; it under the terms of the GNU General Public License as published by
+  ;; the Free Software Foundation, either version 3 of the License, or
+  ;; (at your option) any later version.
+  ;;
+  ;; This program is distributed in the hope that it will be useful,
+  ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ;; GNU General Public License for more details.
+  ;;
+  ;; You should have received a copy of the GNU General Public License
+  ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#+END_SRC
+
+** spc-layers-lob-preamble-template
+The template for the preamble of a layer configuration file.
+
+#+NAME: spc-layers-lob-preamble-template
+#+BEGIN_SRC emacs-lisp :noweb yes
+  ;;; -*- lexical-binding: t; -*-
+  ;;; %FILE_TYPE%.el --- %LAYER_NAME% layer %FILE_TYPE% file for Spacemacs.
+  ;;
+  <<spc-layers-lob-license>>
+  ;;
+  ;;; Commentary:
+  ;;
+  ;;; Code:
+#+END_SRC
+
+** spc-layers-lob-postamble-template
+The template for the post-amble of a layer configuration file.
+
+#+NAME: spc-layers-lob-postamble-template
+#+BEGIN_SRC emacs-lisp :noweb yes
+  ;;; %FILE_TYPE%.el ends here
+#+END_SRC
+
+** spc-layers-lob-preamble
+:PROPERTIES:
+:header-args: emacs-lisp :noweb yes :noweb-prefix no :var FILE_TYPE='packages, LAYER_NAME='nil, USER_FULL_NAME='nil, USER_MAIL_ADDRESS='nil, LAYER_URL='nil
+:END:
+
+This is the user callable snippet that furnishes the preamble for any file in
+the layer.
+
+=FILE_TYPE= should take on either of 5 symbols that are required in a layer
+configuration:
+- 'layers
+- 'packages
+- 'funcs
+- 'config
+- 'keybindings
+
+=LAYER_NAME= takes in the name of the layer configuration as a symbol.
+
+=LAYER_URL= takes in the repository URL as a string, or when set as a header at
+the start of the file. Otherwise, it will default to the GitHub URL of the
+Spacemacs project.
+
+=USER_FULL_NAME= or =USER_MAIL_ADDRESS= are not set as headers at the start
+of the file, it will default to the user-full-name and user-mail-address Emacs
+variables.
+
+#+NAME: spc-layers-lob-preamble
+#+BEGIN_SRC emacs-lisp
+  (cl-flet ((prop-val (PROP)
+              "Extract the org property value of PROP of the file."
+              (let ((prop-vals (cond ((org-collect-keywords PROP))
+                                     (t '()))))
+                (when prop-vals
+                  (car (cdr (car prop-vals)))))))
+    (let* ((USER_FULL_NAME (cond ((boundp 'USER_FULL_NAME) USER_FULL_NAME)
+                                 ((prop-val '("AUTHOR")))
+                                 (user-full-name)
+                                 (t "Sylvain Benner & Contributors")))
+           (USER_MAIL_ADDRESS (cond ((boundp 'USER_MAIL_ADDRESS) USER_MAIL_ADDRESS)
+                                    ((prop-val '("EMAIL")))
+                                    (user-mail-address)
+                                    (t "sylvain.benner@gmail.com")))
+           (LAYER_URL (cond ((boundp 'LAYER_URL) LAYER_URL)
+                            ((prop-val '("LAYER_URL")))
+                            (t "https://github.com/syl20bnr/spacemacs"))))
+
+      (with-temp-buffer
+        (insert "<<spc-layers-lob-preamble-template>>")
+        (dolist (var-cons `(("%FILE_TYPE%" ,(symbol-name FILE_TYPE))
+                            ("%LAYER_NAME%" ,(symbol-name LAYER_NAME))
+                            ("%LAYER_URL%" ,LAYER_URL)
+                            ("%USER_FULL_NAME%" ,USER_FULL_NAME)
+                            ("%USER_MAIL_ADDRESS%" ,USER_MAIL_ADDRESS)
+                            ("%YEAR%" ,(format-time-string "%Y"))))
+          (replace-regexp-in-region (car var-cons)
+                                    (car
+                                     (cdr var-cons))
+                                    (point-min)
+                                    (point-max)))
+        (buffer-substring (point-min) (point-max)))))
+#+END_SRC
+
+** spc-layers-lob-postamble
+:PROPERTIES:
+:header-args: :noweb yes :noweb-prefix no :var FILE_TYPE='packages
+:END:
+
+This is the user callable snippet that furnishes the postamble for any file in
+the layer.
+
+=FILE_TYPE= takes on either of 5 symbols that are required in a layer configuration:
+- 'layers
+- 'packages
+- 'funcs
+- 'config
+- 'keybindings
+
+#+NAME: spc-layers-lob-postamble
+#+BEGIN_SRC emacs-lisp
+  (with-temp-buffer
+    (insert "<<spc-layers-lob-postamble-template>>")
+    (replace-regexp-in-region "%FILE_TYPE%"
+                              (symbol-name FILE_TYPE)
+                              (point-min)
+                              (point-max))
+    (buffer-substring (point-min) (point-max)))
+#+END_SRC

@@ -1,4 +1,4 @@
-#+TITLE: Literate Spacemacs Layering
+#+TITLE: Spacemacs Literate Layering
 
 [[LICENSE][https://img.shields.io/badge/license-GPL_3-green.svg]]
 
