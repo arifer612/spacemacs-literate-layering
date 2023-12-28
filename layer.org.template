@@ -1,0 +1,148 @@
+#+TITLE: %LAYER_NAME%
+#+TAGS: layer
+#+AUTHOR: %USER_FULL_NAME%
+#+EMAIL: %USER_MAIL_ADDRESS%
+#+LAYER_URL:
+
+:HEADER_ARGS:
+#+PROPERTY: header-args:text :noweb yes :noweb-prefix no
+#+PROPERTY: header-args:emacs-lisp :noweb yes :noweb-prefix no
+#+PROPERTY: header-args:emacs-lisp+ :var LAYER_NAME='%LAYER_NAME%
+:END:
+
+* Table of Contents                                       :TOC_4_gh:noexport:
+- [[#description][Description]]
+  - [[#features][Features:]]
+- [[#install][Install]]
+- [[#key-bindings][Key bindings]]
+- [[#layersel][layers.el]]
+  - [[#source-code][Source code]]
+- [[#packagesel][packages.el]]
+  - [[#source-code-1][Source code]]
+- [[#funcsel][funcs.el]]
+  - [[#source-code-2][Source code]]
+- [[#configel][config.el]]
+  - [[#source-code-3][Source code]]
+- [[#keybindingsel][keybindings.el]]
+  - [[#source-code-4][Source code]]
+
+* Description
+This layer prepares additional configuration to the visuals of my Spacemacs setup.
+
+** Features:
+- An example to get this working
+
+* Install
+To use this configuration layer, add it to your =~/.spacemacs=. You will need to
+add =example-layer= to the existing =dotspacemacs-configuration-layers= list in
+this file.
+
+* Key bindings
+
+| Key Binding | Description |
+|-------------+-------------|
+|             |             |
+
+* layers.el
+:PROPERTIES:
+:header-args: emacs-lisp :var FILE_TYPE='layers
+:END:
+
+** noweb snippets                                                  :noexport:
+#+NAME: layers-preamble
+#+BEGIN_SRC emacs-lisp
+  <<spc-layers-lob-preamble>>
+#+END_SRC
+
+#+NAME: layers-postamble
+#+BEGIN_SRC emacs-lisp
+  <<spc-layers-lob-postamble>>
+#+END_SRC
+
+** Source code
+#+BEGIN_SRC text :tangle layers.el
+  <<layers-preamble()>>
+
+  <<layers-postamble()>>
+#+END_SRC
+
+* packages.el
+:PROPERTIES:
+:header-args: emacs-lisp :var FILE_TYPE='packages
+:END:
+
+** noweb snippets                                                  :noexport:
+#+NAME: packages-preamble
+#+BEGIN_SRC emacs-lisp
+  <<spc-layers-lob-preamble>>
+#+END_SRC
+
+#+NAME: packages-postamble
+#+BEGIN_SRC emacs-lisp
+  <<spc-layers-lob-postamble>>
+#+END_SRC
+
+** Source code
+#+BEGIN_SRC text :tangle packages.el
+  <<packages-preamble()>>
+
+  (defconst %LAYER_NAME%-packages
+    '(
+      ))
+
+  <<packages-postamble()>>
+#+END_SRC
+
+* funcs.el
+:PROPERTIES:
+:header-args: emacs-lisp :var FILE_TYPE='funcs
+:END:
+
+** noweb snippets                                                  :noexport:
+#+NAME: funcs-preamble
+#+BEGIN_SRC emacs-lisp
+  <<spc-layers-lob-preamble>>
+#+END_SRC
+
+#+NAME: funcs-postamble
+#+BEGIN_SRC emacs-lisp
+  <<spc-layers-lob-postamble>>
+#+END_SRC
+
+** Source code
+
+* config.el
+:PROPERTIES:
+:header-args: emacs-lisp :var FILE_TYPE='config
+:END:
+
+** noweb snippets                                                  :noexport:
+#+NAME: config-preamble
+#+BEGIN_SRC emacs-lisp
+  <<spc-layers-lob-preamble>>
+#+END_SRC
+
+#+NAME: config-postamble
+#+BEGIN_SRC emacs-lisp
+  <<spc-layers-lob-postamble>>
+#+END_SRC
+
+** Source code
+
+* keybindings.el
+:PROPERTIES:
+:header-args: emacs-lisp :var FILE_TYPE='keybindings
+:END:
+
+** noweb snippets                                                  :noexport:
+#+NAME: keybindings-preamble
+#+BEGIN_SRC emacs-lisp
+  <<spc-layers-lob-preamble>>
+#+END_SRC
+
+#+NAME: keybindings-postamble
+#+BEGIN_SRC emacs-lisp
+  <<spc-layers-lob-postamble>>
+#+END_SRC
+
+** Source code
