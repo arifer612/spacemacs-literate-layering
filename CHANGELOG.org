@@ -1,0 +1,19 @@
+* Changelog
+All notable changes to this project will be documented in this file. See
+[[https://github.com/absolute-version/commit-and-tag-version][commit-and-tag-version]]
+for commit guidelines.
+
+** 1.0.0 (2023-12-28)
+*** Features
+- add template file
+  ([[https://github.com/arifer612/spacemacs-literate-layering/commit/7f1fed098773f2a313c0362e2d6557e80f8baf96][7f1fed0]])
+- add the library of babel
+  ([[https://github.com/arifer612/spacemacs-literate-layering/commit/42c670aacd0af58bfcf9879ee4f0498cb574c590][42c670a]])
+- create a new project
+  ([[https://github.com/arifer612/spacemacs-literate-layering/commit/7391d8b149b26aaa25c211346307d667da9823f7][7391d8b]])
+- create the spacemacs-literate-layering package file
+  ([[https://github.com/arifer612/spacemacs-literate-layering/commit/155f40b3c8c3eaa472531780d51aeeca3a593028][155f40b]])
+
+*** Bug Fixes
+- ensure Org headers are reloaded after copying template
+  ([[https://github.com/arifer612/spacemacs-literate-layering/commit/353be9e5d51f2d8dae3be1f6430da6d62c82a693][353be9e]])
