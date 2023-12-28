@@ -32,3 +32,9 @@ section in your dot-config file
 
 With that, you can easily create a new layer by executing
 =M-x spacemacs-literate|create-layer=!
+
+** Example
+
+For an example of how to write a Spacemacs layer using this package, you can
+refer to the [[./examples/README.org/][example Org file]] that gets tangled into [[./examples/packages.el/][packages.el]] and [[./examples/layers.el][layers.el]]
+in a manner that is completely compatible with Spacemacs.

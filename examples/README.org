@@ -1,0 +1,241 @@
+#+TITLE: example layer
+#+TAGS: layer|web service
+#+AUTHOR: John Doe
+#+EMAIL: john@doe.com
+#+LAYER_URL: https://github.com/johndoe/example-layer
+
+:HEADER_ARGS:
+#+PROPERTY: header-args:text :noweb yes :noweb-prefix no
+#+PROPERTY: header-args:emacs-lisp :noweb yes :noweb-prefix no
+#+PROPERTY: header-args:emacs-lisp+ :var LAYER_NAME='example
+:END:
+
+* Table of Contents                                       :TOC_4_gh:noexport:
+- [[#description][Description]]
+  - [[#features][Features:]]
+- [[#install][Install]]
+- [[#key-bindings][Key bindings]]
+- [[#layersel][layers.el]]
+  - [[#source-code][Source code]]
+- [[#packagesel][packages.el]]
+  - [[#source-code-1][Source code]]
+    - [[#package-abc][Package abc]]
+    - [[#package-def][Package def]]
+- [[#funcsel][funcs.el]]
+  - [[#source-code-2][Source code]]
+- [[#configel][config.el]]
+  - [[#source-code-3][Source code]]
+- [[#keybindingsel][keybindings.el]]
+  - [[#source-code-4][Source code]]
+
+* Description
+This is an example layer to demonstrate how one can use literate programming to
+generate files for a Spacemacs layer.
+
+** Features:
+- A single README file to contain the documentation and source code.
+- A clean an easy interface to generate a new layer.
+
+* Install
+To use this configuration layer, add it to your =~/.spacemacs=. You will need to
+add =example= to the existing =dotspacemacs-configuration-layers= list in
+this file.
+
+* Key bindings
+
+| Key Binding | Description  |
+|-------------+--------------|
+| ~C-tab~     | def-forward  |
+| ~S-tab~     | def-backward |
+
+* layers.el
+:PROPERTIES:
+:header-args: emacs-lisp :var FILE_TYPE='layers
+:END:
+
+** noweb snippets                                                  :noexport:
+:layers-nowebs:
+#+NAME: layers-preamble
+#+BEGIN_SRC emacs-lisp
+  <<spc-layers-lob-preamble>>
+#+END_SRC
+
+#+NAME: layers-postamble
+#+BEGIN_SRC emacs-lisp
+  <<spc-layers-lob-postamble>>
+#+END_SRC
+:END:
+
+** Source code
+
+This example layer depends on the =spacemacs-base= layer. To declare that, we
+need shall simply need to add
+=(configuration-layer/declare-layer-dependencies '(spacemacs-base))= in between
+the pre- and post-amble nowebs snippets. Notice that the noweb snippets are
+to be evaluated as functions, i.e., it *needs* to have the parentheses, as they
+are effectively elisp functions. This code block will tangle to ~layers.el~,
+which Spacemacs will then read when starting up to load this layer.
+
+#+BEGIN_SRC text :tangle layers.el
+  <<layers-preamble()>>
+
+  (configuration-layer/declare-layer-dependencies '(spacemacs-base))
+
+  <<layers-postamble()>>
+#+END_SRC
+
+* packages.el
+:PROPERTIES:
+:header-args: emacs-lisp :var FILE_TYPE='packages
+:END:
+
+** noweb snippets                                                  :noexport:
+:packages-noweb:
+#+NAME: packages-preamble
+#+BEGIN_SRC emacs-lisp
+  <<spc-layers-lob-preamble>>
+#+END_SRC
+
+#+NAME: packages-postamble
+#+BEGIN_SRC emacs-lisp
+  <<spc-layers-lob-postamble>>
+#+END_SRC
+:END:
+
+** Source code
+
+We have two packages that need to be installed, =abc= and =def=. =abc= can be
+installed normally as a package from MELPA, whereas =def= is to be installed as
+a QUELPA recipe pulling from a GitHub repository. Following the
+literate-programming paradigm, we can declare the pre-initialisation,
+initialisation, and post-initialisation of each package in separate source code
+blocks and put them all together in a single code block.
+
+The single code block references all the other relevant code blocks by their
+names, and will tangle to ~packages.el~, which is needed for Spacemacs to know
+which packages to install/prepare when loading up the layer.
+
+#+BEGIN_SRC text :tangle packages.el
+  <<packages-preamble()>>
+
+  (defconst example-packages
+    '(abc
+      (def :location
+           (recipe
+            :fetcher github
+            :repo "johndoe/def"))))
+
+  <<pre-init-abc>>
+
+  <<post-init-abc>>
+
+  <<def>>
+
+  <<packages-postamble()>>
+#+END_SRC
+
+*** Package abc
+
+The =abc= package is owned by a different layer, but we want to configure it a
+little bit more for here. For that we will have to configure it in the
+=example/pre-init-abc= and =example/post-init-abc= functions.
+
+#+NAME: pre-init-abc
+#+BEGIN_SRC emacs-lisp
+  (defun example/pre-init-abc ()
+    (when (eq example-use-abc t)
+      (add-to-list 'abc-global-modes 'def)))
+#+END_SRC
+
+#+NAME: post-init-abc
+#+BEGIN_SRC emacs-lisp
+  (defun example/post-init-abc ()
+    (use-package abc
+      :config
+      (spacemacs|hide-lighter abc-mode)
+      (message "abc is started up for the example layer"))
+#+END_SRC
+
+*** Package def
+
+The =def= package is owned by this package, therefore we need to configure it in
+the =example/init-def= function. Assuming that we want to bind several
+interactive functions from the package, we can do so here and easily add the
+information up in the [[* Key bindings][key bindings section]].
+
+#+NAME: def
+#+BEGIN_SRC emacs-lisp
+  (defun example/init-def ()
+    (use-package def
+      :after abc
+      :bind (:map def-mode-map
+                  ([C-tab] . def-forward)
+                  ([S-tab] . def-backward))
+      :hook ((prog-mode . def-mode))))
+#+END_SRC
+
+* funcs.el
+:PROPERTIES:
+:header-args: emacs-lisp :var FILE_TYPE='funcs
+:END:
+
+There are no layer functions that we need to declare, so simply leaving the
+source code subsection empty is sufficiently fine. No ~funcs.el~ file will be
+created from the tangling of this file.
+
+** noweb snippets                                                  :noexport:
+#+NAME: funcs-preamble
+#+BEGIN_SRC emacs-lisp
+  <<spc-layers-lob-preamble>>
+#+END_SRC
+
+#+NAME: funcs-postamble
+#+BEGIN_SRC emacs-lisp
+  <<spc-layers-lob-postamble>>
+#+END_SRC
+
+** Source code
+
+* config.el
+:PROPERTIES:
+:header-args: emacs-lisp :var FILE_TYPE='config
+:END:
+
+There are no layer configuration that we need to declare, so simply leaving the
+source code subsection empty is sufficiently fine. No ~config.el~ file will be
+created from the tangling of this file.
+
+** noweb snippets                                                  :noexport:
+#+NAME: config-preamble
+#+BEGIN_SRC emacs-lisp
+  <<spc-layers-lob-preamble>>
+#+END_SRC
+
+#+NAME: config-postamble
+#+BEGIN_SRC emacs-lisp
+  <<spc-layers-lob-postamble>>
+#+END_SRC
+
+** Source code
+
+* keybindings.el
+:PROPERTIES:
+:header-args: emacs-lisp :var FILE_TYPE='keybindings
+:END:
+
+There are no layer key bindings that we need to declare, so simply leaving the
+source code subsection empty is sufficiently fine. No ~keybindings.el~ file will
+be created from the tangling of this file.
+
+** noweb snippets                                                  :noexport:
+#+NAME: keybindings-preamble
+#+BEGIN_SRC emacs-lisp
+  <<spc-layers-lob-preamble>>
+#+END_SRC
+
+#+NAME: keybindings-postamble
+#+BEGIN_SRC emacs-lisp
+  <<spc-layers-lob-postamble>>
+#+END_SRC
+
+** Source code
