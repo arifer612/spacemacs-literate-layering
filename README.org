@@ -1,5 +1,34 @@
 #+TITLE: Spacemacs Literate Layering
+#+DATE: 2023-12-28
 
 [[LICENSE][https://img.shields.io/badge/license-GPL_3-green.svg]]
+[[https://develop.spacemacs.org][file:https://cdn.rawgit.com/syl20bnr/spacemacs/442d025779da2f62fc86c2082703697714db6514/assets/spacemacs-badge.svg]]
 
 Create new Spacemacs Layers with literate programming and Org tangling.
+
+** Installation
+
+Add the following to =dotspacemacs-additional-packages= in your dot-config file
+#+BEGIN_SRC emacs-lisp
+  (...
+   dotspacemacs-additional-packages
+   '((spacemacs-literate-layering
+      :location (recipe
+                 :fetcher github
+                 :repo "arifer612/spacemacs-literate-layering"
+                 :files ("*.el" "layer.org.template" "library.org")))
+     ...)
+   ...)
+#+END_SRC
+
+** Usage
+
+Lazy-load the package by adding the following snippet within the =user-config=
+section in your dot-config file
+#+begin_src emacs-lisp
+  (use-package spacemacs-literate-layering
+    :commands (spacemacs-literate|create-layer))
+#+end_src
+
+With that, you can easily create a new layer by executing
+=M-x spacemacs-literate|create-layer=!
