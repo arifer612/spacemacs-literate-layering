@@ -122,6 +122,7 @@ If LAYER_DIR is nil, the private directory is used."
         (substitute "%USER_FULL_NAME%" "Sylvain Benner & Contributors")
         (substitute "%USER_MAIL_ADDRESS%" "sylvain.benner@gmail.com")))
       (save-buffer)
+      (spacemacs-literate|layering//reload-headers)
       (spacemacs-literate|layering//lob-ingest))))
 
 (defun spacemacs-literate|layering//lob-ingest ()
@@ -130,6 +131,11 @@ If LAYER_DIR is nil, the private directory is used."
                          "library.org"
                          (file-name-directory
                           (locate-library "spacemacs-literate-layering")))))
+
+(defun spacemacs-literate|layering//reload-headers ()
+  "Reload the Org header properties."
+  (revert-buffer t t)
+  (save-buffer))
 
 (provide 'spacemacs-literate-layering)
 ;;; spacemacs-literate-layering.el ends here
