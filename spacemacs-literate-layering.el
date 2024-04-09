@@ -43,6 +43,10 @@
 
 (defvar spacemacs-version)
 (defvar configuration-layer-private-layer-directory)
+(defvar spacemacs-literate-layering--previous-lob
+  org-babel-library-of-babel
+  "The previous library of babel before ingesting the
+spacemacs-literate-layering library.")
 
 (declare-function ivy-read "ivy" ())
 (declare-function helm "helm-core" ())
@@ -136,6 +140,30 @@ If LAYER_DIR is nil, the private directory is used."
   "Reload the Org header properties."
   (revert-buffer t t)
   (save-buffer))
+
+(define-minor-mode spacemacs-literate-layering-minor-mode
+  "Toggle the SLL mode, only for layer README files.
+
+When SLL mode is enabled, SLL's Library of Babel is ingested. When SLL mode is
+turned off, SLL's Library of Babel is removed and the previous Library of Babel
+is reset."
+  :global nil
+  :init-value nil
+  :lighter "[SLL]"
+  :keymap nil
+  (cl-flet ((reset-lob () (setq org-babel-library-of-babel
+                                spacemacs-literate-layering--previous-lob)))
+    (cond ((string-match-p "layers/.*/README\\.org\\'" buffer-file-name)
+           (if spacemacs-literate-layering-minor-mode
+               (progn
+                 (spacemacs-literate|layering//lob-ingest)
+                 (let ((new-lob org-babel-library-of-babel))
+                   (reset-lob)
+                   (setq-local org-babel-library-of-babel new-lob)))
+             (reset-lob)))
+          (t (when spacemacs-literate-layering-minor-mode
+               (reset-lob)
+               (spacemacs-literate-layering-minor-mode 0))))))
 
 (provide 'spacemacs-literate-layering)
 ;;; spacemacs-literate-layering.el ends here
