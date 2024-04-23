@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file. See
 [[https://github.com/absolute-version/commit-and-tag-version][commit-and-tag-version]]
 for commit guidelines.
 
+** [[https://github.com/arifer612/spacemacs-literate-layering/compare/v1.0.0...v1.1.0][1.1.0]]
+(2024-04-23)
+*** Features
+- add a minor mode
+  ([[https://github.com/arifer612/spacemacs-literate-layering/commit/69d8bd2166bf8f70ce50ecd28fa88eaedec1df4a][69d8bd2]])
+
 ** 1.0.0 (2023-12-28)
 *** Features
 - add template file
