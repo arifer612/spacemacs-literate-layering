@@ -5,7 +5,7 @@
 
 ;; Author: Arif Er <arifer612@proton.me>
 ;; Created: 2023-12-28
-;; Version: 1.1.0
+;; Version: 1.1.1
 ;; Package-Requires: ((org "9.6.6") (cl-lib "0.7.1"))
 ;; Keywords: spacemacs, tools
 ;; Homepage: https://github.com/arifer612/spacemacs-literate-layering
