@@ -153,8 +153,8 @@ is reset."
   :keymap nil
   (cl-flet ((reset-lob () (setq org-babel-library-of-babel
                                 spacemacs-literate-layering--previous-lob)))
-    (cond (((not buffer-file-name) "")
-           (string-match-p "layers/.*/README\\.org\\'" buffer-file-name)
+    (cond ((not buffer-file-name) "")
+          ((string-match-p "layers/.*/README\\.org\\'" buffer-file-name)
            (if spacemacs-literate-layering-minor-mode
                (progn
                  (spacemacs-literate|layering//lob-ingest)
